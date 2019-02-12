@@ -9,8 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "replace-variables": "npx ngssc insert src/ --search",
     "deploy:gh-pages": "ng build --prod --output-path docs --base-href /github-search/ && cp docs/index.html docs/404.html && git add . && git commit -m 'deploy app' && git push origin master",
-    "netlify:prepare": "npx ngssc insert src/ --search"
+    "netlify:prepare": "npm run-script replace-variables && npx ngssc wrap-aot ng build --prod"
   },
   "private": true,
   "husky": {

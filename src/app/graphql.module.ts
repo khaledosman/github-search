@@ -10,9 +10,7 @@ const uri = 'https://api.github.com/graphql' // <-- add the URL of the GraphQL s
 // import introspectionQueryResultData from '../../fragmentTypes.json'
 
 export function createApollo (httpLink: HttpLink) {
-  console.log('IN CREATE APOLLO')
   const authLink = setContext((_, { headers }) => {
-    console.log('IN AUTH LINK SET CONTEXT')
     // get the authentication token from local storage if it exists
     const token = environment.GH_AUTH_TOKEN
     // return the headers to the context so httpLink can read them
