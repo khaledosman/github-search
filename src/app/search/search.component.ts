@@ -1,26 +1,31 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core'
-
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input
+  , Output, ViewChild, ViewEncapsulation } from '@angular/core'
+import { fromEvent } from 'rxjs'
+import { debounceTime, tap } from 'rxjs/operators'
 @Component({
   selector: 'app-search',
   template: `
     <ng-container>
-      <input type="text" [value]="value" (input)="handleChange($event)" />
+      <input #searchField type="text" [value]="value" [placeholder]="placeholder" />
     </ng-container>`,
   styleUrls: ['./search.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.ShadowDom
 })
-export class SearchComponent implements OnInit {
-  @Input() public value: string = ''
-  @Output() public onSearchChanged = new EventEmitter<any>()
+export class SearchComponent {
+  @Input() public placeholder: string = ''
+  @Output() public onSearchChanged = new EventEmitter<string>()
+  public value = ''
+  @ViewChild('searchField') private el: ElementRef
   constructor () { }
 
-  public ngOnInit () {
+  public ngAfterViewInit (): void {
+    fromEvent(this.el.nativeElement, 'keyup')
+    .pipe(
+      debounceTime(500),
+      tap((event: any) => this.value = this.el.nativeElement.value)
+    ).subscribe((event: any) => {
+      this.onSearchChanged.emit(this.el.nativeElement.value)
+    })
   }
-
-  public handleChange ($event) {
-    console.log('event', $event)
-    this.onSearchChanged.emit($event)
-  }
-
 }

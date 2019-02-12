@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Apollo } from 'apollo-angular'
-import gql from 'graphql-tag'
+import { GITHUB_SEARCH_QUERY } from './queries/github-search.query'
 
 @Injectable({
   providedIn: 'root'
@@ -11,51 +11,14 @@ export class GithubSearchService {
 
   public searchUsers ({ query, type, first, after }) {
     return this.apollo.watchQuery({
-      query: gql`
-          query search ($query: String!, $type:SearchType!, $first: Int, $after: String) {
-            search (query: $query, type: $type, first: $first, after: $after) {
-              edges {
-                cursor
-                node {
-                  ...on User {
-                    avatarUrl
-                    bio
-                    company
-                    email
-                    followers {
-                      totalCount
-                    }
-                    following {
-                      totalCount
-                    }
-                    gists {
-                      totalCount
-                    }
-                    id
-                    location
-                    name
-                    repositories {
-                      totalCount
-                    }
-                    repositoriesContributedTo {
-                      totalCount
-                    }
-                    starredRepositories {
-                      totalCount
-                    }
-                    url
-                  }
-                }
-              }
-            }
-
-        }`,
+      query: GITHUB_SEARCH_QUERY,
       variables: {
         type,
         query,
         first,
         after
-      }
+      },
+      fetchPolicy: 'cache-first'
     })
   }
 }
