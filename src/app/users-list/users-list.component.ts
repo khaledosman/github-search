@@ -6,7 +6,7 @@ import { IUser } from '../model/user.interface'
   template: `
   <section>
   <h3> {{userCount}} </h3>
-    <div *ngFor="let user of users">
+    <div *ngFor="let user of users trackBy: trackById">
       <app-user [user]="user"></app-user>
     </div>
   </section>
@@ -21,5 +21,9 @@ export class UsersListComponent {
   @Input() public users: IUser[] = []
 
   constructor () { }
+
+  public trackById (index, item) {
+    return item.id
+  }
 
 }

@@ -6,7 +6,9 @@ import { AppComponent } from './app.component'
 import { GraphQLModule } from './graphql.module'
 import { SearchComponent } from './search/search.component'
 import { UserComponent } from './user/user.component'
-import { UsersListComponent } from './users-list/users-list.component'
+import { UsersListComponent } from './users-list/users-list.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment'
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { UsersListComponent } from './users-list/users-list.component'
   imports: [
     BrowserModule,
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
