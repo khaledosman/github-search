@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng build --prod --output-path docs --base-href /github-search/ && cp docs/index.html docs/404.html && git add . && git commit -m 'deploy app' && git push origin master"
+    "deploy:gh-pages": "ng build --prod --output-path docs --base-href /github-search/ && cp docs/index.html docs/404.html && git add . && git commit -m 'deploy app' && git push origin master",
+    "netlify:prepare": "npx ngssc insert src/ --search"
   },
   "private": true,
   "husky": {
@@ -30,6 +31,7 @@
     "@angular/pwa": "^0.12.4",
     "@angular/router": "^8.0.0-beta.3",
     "@angular/service-worker": "^8.0.0-beta.3",
+    "angular-server-side-configuration": "^1.2.1",
     "apollo-angular": "^1.5.0",
     "apollo-angular-link-http": "^1.5.0",
     "apollo-cache-inmemory": "^1.4.2",

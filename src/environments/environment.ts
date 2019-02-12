@@ -1,10 +1,10 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
+import 'angular-server-side-configuration/process'
 export const environment = {
   production: false,
-  GH_AUTH_TOKEN: '5a651da64b419fdf2bf3bc4c55f062fcf5998398'
+  GH_AUTH_TOKEN: process.env.GH_AUTH_TOKEN
 }
 
 /*
