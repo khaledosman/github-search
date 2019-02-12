@@ -12,7 +12,8 @@ const uri = 'https://api.github.com/graphql' // <-- add the URL of the GraphQL s
 export function createApollo (httpLink: HttpLink) {
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
-    const token = environment.GH_AUTH_TOKEN
+    // temporary hack: replacing environment file is not working on prod build
+    const token = environment.GH_AUTH_TOKEN || '5a651da64b419fdf2bf3bc4c55f062fcf5998398'
     // return the headers to the context so httpLink can read them
     return {
       headers: {
