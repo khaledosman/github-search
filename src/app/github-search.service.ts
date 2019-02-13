@@ -9,14 +9,16 @@ export class GithubSearchService {
 
   constructor (private apollo: Apollo) { }
 
-  public searchUsers ({ query, type, first, after }) {
+  public searchUsers ({ query, type, first, after = null, before = null, last = null }) {
     return this.apollo.watchQuery({
       query: GITHUB_SEARCH_QUERY,
       variables: {
         type,
         query,
         first,
-        after
+        last,
+        after,
+        before
       },
       fetchPolicy: 'cache-first'
     })
