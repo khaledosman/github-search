@@ -13,6 +13,9 @@ import { IUser } from '../../model/iuser.interface'
           <p>{{user.bio}}</p>
           <span>{{user.location}}</span>
       </div>
+      <div class="user__meta">
+      <span> followers: {{user.followers.totalCount}}</span>
+      </div>
     </div>
   `,
   styleUrls: ['./user.component.css'],

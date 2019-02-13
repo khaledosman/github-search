@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "postinstall": "ivy-ngcc",
-    "start": "ng serve",
+    "start": "echo 'ADD YOUR GITHUB TOKEN TO src/environments/environment.ts' && ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

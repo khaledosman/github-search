@@ -4,21 +4,21 @@ import { IUser } from '../../model/iuser.interface'
 @Component({
   selector: 'app-users-list',
   template: `
-  <section>
-  <h3> {{userCount}} </h3>
-    <div *ngFor="let user of users trackBy: trackById">
-      <app-user [user]="user"></app-user>
-    </div>
-    <footer>
-      <button *ngIf="users.length >= pageLimit"
-        [disabled]="isButtonsDisabled"
-        (click)="fetchPrevious($event)">Previous</button>
+    <section>
+      <h4 class="user-list__count" *ngIf="!!userCount"> Count: {{userCount}} </h4>
+      <div *ngFor="let user of users trackBy: trackById">
+        <app-user [user]="user"></app-user>
+      </div>
+      <footer style="margin: 0 auto; text-align: center;">
+        <button *ngIf="users.length >= pageLimit"
+          [disabled]="isButtonsDisabled"
+          (click)="fetchPrevious($event)">Previous</button>
 
-      <button *ngIf="users.length >= pageLimit"
-        [disabled]="isButtonsDisabled"
-        (click)="fetchNext($event)">Next</button>
-    </footer>
-  </section>
+        <button *ngIf="users.length >= pageLimit"
+          [disabled]="isButtonsDisabled"
+          (click)="fetchNext($event)">Next</button>
+      </footer>
+    </section>
   `,
   styleUrls: ['./users-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

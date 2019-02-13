@@ -6,7 +6,7 @@ import { IUser } from './model/iuser.interface'
 @Component({
   selector: 'app-root',
   template: `
-  <main>
+    <main>
       <!-- <router-outlet> </router-outlet> -->
       <app-search (onSearchChanged)="handleSearchChanged($event)" [placeholder]="'enter a username'">
         <h5> Search for github users: </h5>
@@ -115,8 +115,10 @@ export class AppComponent {
   }
 
   private _updateCursorsFromResults (newEdges) {
-    AppComponent.lastItemCursor = newEdges[newEdges.length - 1].cursor
-    AppComponent.firstItemCursor = newEdges[0].cursor
+    if (newEdges && newEdges.length) {
+      AppComponent.lastItemCursor = newEdges[newEdges.length - 1].cursor
+      AppComponent.firstItemCursor = newEdges[0].cursor
+    }
   }
 
   private _resetState () {
