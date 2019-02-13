@@ -7,8 +7,8 @@ import { environment } from '../environments/environment'
 const uri = 'https://api.github.com/graphql'
 
 // See https://www.apollographql.com/docs/react/advanced/fragments.html#fragment-matcher
-// import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
-// import introspectionQueryResultData from '../../fragmentTypes.json'
+import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
+import introspectionQueryResultData from '../../fragmentTypes.json'
 
 export function createApollo (httpLink: HttpLink) {
   const authLink = setContext((_, { headers }) => {
@@ -21,15 +21,15 @@ export function createApollo (httpLink: HttpLink) {
     }
   })
 
-  // const fragmentMatcher = new IntrospectionFragmentMatcher({
-  //   introspectionQueryResultData
-  // })
+  const fragmentMatcher = new IntrospectionFragmentMatcher({
+    introspectionQueryResultData
+  })
 
   return {
     link: authLink.concat(httpLink.create({ uri })),
-    cache: new InMemoryCache(/*{
+    cache: new InMemoryCache({
       fragmentMatcher
-    }*/)
+    })
   }
 }
 

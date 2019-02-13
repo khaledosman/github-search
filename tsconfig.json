@@ -6,6 +6,7 @@
     "sourceMap": true,
     "declaration": false,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "module": "es2015",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
