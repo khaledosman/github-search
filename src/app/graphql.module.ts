@@ -4,16 +4,15 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import { environment } from '../environments/environment'
-const uri = 'https://api.github.com/graphql' // <-- add the URL of the GraphQL server here
+const uri = 'https://api.github.com/graphql'
 
+// See https://www.apollographql.com/docs/react/advanced/fragments.html#fragment-matcher
 // import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
 // import introspectionQueryResultData from '../../fragmentTypes.json'
 
 export function createApollo (httpLink: HttpLink) {
   const authLink = setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
     const token = environment.GH_AUTH_TOKEN
-    // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,

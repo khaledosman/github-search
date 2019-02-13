@@ -1,23 +1,25 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core'
 import { QueryRef } from 'apollo-angular'
 import { GithubSearchService } from './github-search.service'
-import { IUser } from './model/user.interface'
+import { IUser } from './model/iuser.interface'
 
 @Component({
   selector: 'app-root',
   template: `
-    <!-- <router-outlet> </router-outlet> -->
-    <app-search (onSearchChanged)="handleSearchChanged($event)" [placeholder]="'enter a username'">
-      <h5> Search for github users: </h5>
-    </app-search>
-    <div *ngIf="isLoading"> Loading... </div>
-    <app-users-list
-      [users]="users"
-      [pageLimit]="pageLimit"
-      [userCount]="userCount"
-      (onNext)="handleFetchNext($event)"
-      (onPrevious)="handleFetchPrevious($event)">
-    </app-users-list>
+  <main>
+      <!-- <router-outlet> </router-outlet> -->
+      <app-search (onSearchChanged)="handleSearchChanged($event)" [placeholder]="'enter a username'">
+        <h5> Search for github users: </h5>
+      </app-search>
+      <div *ngIf="isLoading"> Loading... </div>
+      <app-users-list
+        [users]="users"
+        [pageLimit]="pageLimit"
+        [userCount]="userCount"
+        (onNext)="handleFetchNext($event)"
+        (onPrevious)="handleFetchPrevious($event)">
+      </app-users-list>
+    </main>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,9 +44,6 @@ export class AppComponent {
   public handleSearchChanged (newValue) {
     this._resetState()
     this.isLoading = true
-    // this.cd.detectChanges()
-    // reset state
-    console.log({ newValue })
 
     this.query = this.githubSearchService.searchUsers({
       query: newValue,
@@ -52,56 +51,32 @@ export class AppComponent {
       first: this.pageLimit
     })
 
-    this.query
-      .valueChanges
-      .subscribe((({ data, loading, errors }) => {
-        if (loading) {
-          this.isLoading = true
-        } else if (errors) {
-          console.error(errors)
-          this.isLoading = false
-        } else if (data) {
-          this.isLoading = false
-          console.log({ data, loading, errors })
-          const { edges, userCount } = data.search
-          this.userCount = userCount
-          // show the last 10 users only
-          const newestTenEdges = edges.slice(0, 10)
-          this.users = newestTenEdges.map((edge) => edge.node)
-          // const lastItemsCursor = edges[edges.length - 1].cursor
-          AppComponent.lastItemCursor = newestTenEdges[newestTenEdges.length - 1].cursor
-          AppComponent.firstItemCursor = newestTenEdges[0].cursor
-        } else {
-          this._resetState()
-        }
-        this.cd.markForCheck()
-      }))
+    this._subscribeToQueryChanges()
   }
+
   public handleFetchNext (event) {
+    event.stopPropagation()
+
     this.fetchMore({ after: AppComponent.lastItemCursor, before: null, first: this.pageLimit, last: null })
   }
 
   public handleFetchPrevious (event) {
+    event.stopPropagation()
     this.fetchMore({ before: AppComponent.firstItemCursor, after: null, last: this.pageLimit, first: null })
   }
 
   public fetchMore (queryVars) {
     this.isLoading = true
     this.query.fetchMore({
-      // We are able to figure out which offset to use because it matches
-      // the feed length, but we could also use state, or the previous
-      // variables to calculate this (see the cursor example below)
       variables: {
         ...queryVars
       },
       updateQuery: (previousResult, { fetchMoreResult: newResult }) => {
-        console.log({ previousResult, newResult })
+        // console.log({ previousResult, newResult })
         const newSearchResults = newResult.search
 
         // update internal reference to cursor
-        const lastItemsCursor = newSearchResults.edges[newSearchResults.edges.length - 1].cursor
-        AppComponent.lastItemCursor = lastItemsCursor
-        AppComponent.firstItemCursor = newSearchResults.edges[0].cursor
+        this._updateCursorsFromResults(newSearchResults.edges)
 
         return {
           search: {
@@ -112,6 +87,36 @@ export class AppComponent {
         }
       }
     })
+  }
+
+  private _subscribeToQueryChanges () {
+    this.query
+      .valueChanges
+      .subscribe((({ data, loading, errors }) => {
+        if (loading) {
+          this.isLoading = true
+        } else if (errors) {
+          console.error(errors)
+          this.isLoading = false
+        } else if (data) {
+          this.isLoading = false
+          const { edges, userCount } = data.search
+          this.userCount = userCount
+          // show the first 10 users only
+          // the first 10 are the newest since we're adding new results to the beginning of the cache in updateQuery
+          const newestTenEdges = edges.slice(0, 10)
+          this.users = newestTenEdges.map((edge) => edge.node)
+          this._updateCursorsFromResults(newestTenEdges)
+        } else {
+          this._resetState()
+        }
+        this.cd.markForCheck()
+      }))
+  }
+
+  private _updateCursorsFromResults (newEdges) {
+    AppComponent.lastItemCursor = newEdges[newEdges.length - 1].cursor
+    AppComponent.firstItemCursor = newEdges[0].cursor
   }
 
   private _resetState () {

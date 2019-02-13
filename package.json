@@ -13,7 +13,8 @@
     "deploy:gh-pages": "ng build --prod --output-path docs --base-href /github-search/ && cp docs/index.html docs/404.html && git add . && git commit -m 'deploy app' && git push origin master",
     "deploy:netlify": "npm run-script replace-variables && npx ngssc wrap-aot ng build --prod",
     "invalidate-cache": "aws --profile personal configure set preview.cloudfront true && aws cloudfront create-invalidation --distribution-id <CLOUDFRONT_DISTRIBUTION_ID> --paths '/*'",
-    "deploy": "ng build --prod && aws --profile personal s3 sync dist/github-search s3://my-github-search.io --delete"
+    "deploy": "ng build --prod && aws --profile personal s3 sync dist/github-search s3://my-github-search.io --delete",
+    "fetch-schema": "node fetch-schema.js"
   },
   "private": true,
   "husky": {

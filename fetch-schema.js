@@ -1,3 +1,4 @@
+// implemented due to warning regarding fragments and union types see https://www.apollographql.com/docs/react/advanced/fragments.html#fragment-matcher
 const fetch = require('node-fetch')
 const fs = require('fs')
 

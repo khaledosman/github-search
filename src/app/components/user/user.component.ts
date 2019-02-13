@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core'
-import { IUser } from '../model/user.interface'
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core'
+import { IUser } from '../../model/iuser.interface'
 
 @Component({
   selector: 'app-user',
@@ -12,7 +12,6 @@ import { IUser } from '../model/user.interface'
           <a [href]="user.url">{{user.name}}</a>
           <p>{{user.bio}}</p>
           <span>{{user.location}}</span>
-
       </div>
     </div>
   `,
@@ -20,13 +19,8 @@ import { IUser } from '../model/user.interface'
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
 
   @Input() public user: IUser
-
-  constructor () { }
-
-  public ngOnInit () {
-  }
 
 }
