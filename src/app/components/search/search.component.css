@@ -1,0 +1,9 @@
+input {
+  width: 50%;
+  text-align: center;
+  height: 20px;
+  border-radius: 25px;
+  transform: translateX(50%);
+  border: solid 1px #e3e3e3;
+  margin: 0 auto;
+}

@@ -1,23 +1,25 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges,
+   ViewEncapsulation } from '@angular/core'
 import { IUser } from '../../model/iuser.interface'
 
 @Component({
   selector: 'app-users-list',
   template: `
     <section>
-      <h4 class="user-list__count" *ngIf="!!userCount"> Count: {{userCount}} </h4>
-      <div *ngFor="let user of users trackBy: trackById">
-        <app-user [user]="user"></app-user>
-      </div>
-      <footer style="margin: 0 auto; text-align: center;">
-        <button *ngIf="users.length >= pageLimit"
-          [disabled]="isButtonsDisabled"
-          (click)="fetchPrevious($event)">Previous</button>
+    <h4 class="user-list__count" *ngIf="!!userCount"> Count: {{userCount}} </h4>
+    <ng-content></ng-content>
+    <div *ngFor="let user of users trackBy: trackById">
+    <app-user [user]="user"></app-user>
+    </div>
+    <footer class="footer">
+      <button *ngIf="users.length >= pageLimit"
+        [disabled]="isButtonsDisabled"
+        (click)="fetchPrevious($event)">Previous</button>
 
-        <button *ngIf="users.length >= pageLimit"
-          [disabled]="isButtonsDisabled"
-          (click)="fetchNext($event)">Next</button>
-      </footer>
+      <button *ngIf="users.length >= pageLimit"
+        [disabled]="isButtonsDisabled"
+        (click)="fetchNext($event)">Next</button>
+    </footer>
     </section>
   `,
   styleUrls: ['./users-list.component.css'],
@@ -38,9 +40,7 @@ export class UsersListComponent implements OnChanges {
   }
 
   public ngOnChanges (changes: SimpleChanges): void {
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // Add '${implements OnChanges}' to the class.
-    if (!changes.users.isFirstChange()) {
+    if (changes.users && !changes.users.isFirstChange()) {
       this.isButtonsDisabled = false
     }
   }

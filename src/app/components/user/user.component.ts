@@ -9,7 +9,7 @@ import { IUser } from '../../model/iuser.interface'
         <img [src]="user.avatarUrl" />
       </div>
       <div class="user__info">
-          <a [href]="user.url">{{user.name}}</a>
+          <a [href]="user.url" target="_blank">{{user.name}}</a>
           <p>{{user.bio}}</p>
           <span>{{user.location}}</span>
       </div>

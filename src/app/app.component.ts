@@ -8,16 +8,16 @@ import { IUser } from './model/iuser.interface'
   template: `
     <main>
       <!-- <router-outlet> </router-outlet> -->
-      <app-search (onSearchChanged)="handleSearchChanged($event)" [placeholder]="'enter a username'">
-        <h5> Search for github users: </h5>
-      </app-search>
-      <div *ngIf="isLoading"> Loading... </div>
-      <app-users-list
+      <app-search (onSearchChanged)="handleSearchChanged($event)" [placeholder]="'Enter a username'">
+        <h5 style="text-align: center;"> Search for github users: </h5>
+        </app-search>
+        <app-users-list
         [users]="users"
         [pageLimit]="pageLimit"
         [userCount]="userCount"
         (onNext)="handleFetchNext($event)"
         (onPrevious)="handleFetchPrevious($event)">
+          <p *ngIf="isLoading"> fetching data... </p>
       </app-users-list>
     </main>
   `,
@@ -56,7 +56,6 @@ export class AppComponent {
 
   public handleFetchNext (event) {
     event.stopPropagation()
-
     this.fetchMore({ after: AppComponent.lastItemCursor, before: null, first: this.pageLimit, last: null })
   }
 
@@ -72,16 +71,16 @@ export class AppComponent {
         ...queryVars
       },
       updateQuery: (previousResult, { fetchMoreResult: newResult }) => {
-        // console.log({ previousResult, newResult })
         const newSearchResults = newResult.search
 
         // update internal reference to cursor
         this._updateCursorsFromResults(newSearchResults.edges)
 
+        // manually updates apollo cache, merges old results with new results
         return {
           search: {
             ...previousResult.search,
-            userCount: previousResult.search.userCount,
+            userCount: newResult.search.userCount,
             edges: [...newResult.search.edges, ...previousResult.search.edges]
           }
         }
@@ -127,6 +126,5 @@ export class AppComponent {
     this.userCount = null
     this.users = []
     this.isLoading = false
-
   }
 }
