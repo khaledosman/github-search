@@ -6,8 +6,10 @@ import { debounceTime, tap } from 'rxjs/operators'
   selector: 'app-search',
   template: `
     <ng-container>
-      <ng-content></ng-content>
-      <input #searchField type="text" [value]="value" [placeholder]="placeholder" />
+      <label>
+        <ng-content></ng-content>
+        <input #searchField type="text" [value]="value" [placeholder]="placeholder" />
+      </label>
     </ng-container>`,
   styleUrls: ['./search.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
