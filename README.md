@@ -2,6 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
 
+Lighthouse Report:
+![Lighthouse Report](https://i.ibb.co/8zFMN2Y/image-1.png)
+
 ## Running the Project Locally
 1. Add your github access token to file src/environments/environment.ts
 2. Run `npm start`
