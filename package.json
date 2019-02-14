@@ -14,6 +14,7 @@
     "deploy:netlify": "npm run-script replace-variables && npx ngssc wrap-aot ng build --prod",
     "invalidate-cache": "aws --profile personal configure set preview.cloudfront true && aws cloudfront create-invalidation --distribution-id <CLOUDFRONT_DISTRIBUTION_ID> --paths '/*'",
     "deploy": "ng build --prod --es5-browser-support=false && aws --profile personal s3 sync dist/github-search s3://my-github-search.io --delete",
+    "deploy:surge": "surge --domain https://serious-squirrel.sh",
     "fetch-schema": "node fetch-schema.js"
   },
   "private": true,
