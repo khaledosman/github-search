@@ -6,20 +6,20 @@ import { IUser } from '../../model/iuser.interface'
   selector: 'app-users-list',
   template: `
     <section>
-    <h4 class="user-list__count" *ngIf="!!userCount"> Count: {{userCount}} </h4>
-    <ng-content></ng-content>
-    <div *ngFor="let user of users trackBy: trackById">
-    <app-user [user]="user"></app-user>
-    </div>
-    <footer class="footer">
-      <button *ngIf="users.length >= pageLimit"
-        [disabled]="isButtonsDisabled"
-        (click)="fetchPrevious($event)">Previous</button>
+      <h4 class="user-list__count" *ngIf="!!userCount"> Count: {{userCount}} </h4>
+      <ng-content></ng-content>
+      <div *ngFor="let user of users trackBy: trackById">
+      <app-user [user]="user"></app-user>
+      </div>
+      <footer class="footer">
+        <button *ngIf="users.length >= pageLimit"
+          [disabled]="isButtonsDisabled"
+          (click)="fetchPrevious($event)">Previous</button>
 
-      <button *ngIf="users.length >= pageLimit"
-        [disabled]="isButtonsDisabled"
-        (click)="fetchNext($event)">Next</button>
-    </footer>
+        <button *ngIf="users.length >= pageLimit"
+          [disabled]="isButtonsDisabled"
+          (click)="fetchNext($event)">Next</button>
+      </footer>
     </section>
   `,
   styleUrls: ['./users-list.component.css'],
