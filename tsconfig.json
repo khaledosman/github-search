@@ -7,12 +7,12 @@
     "declaration": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es6",
+    "target": "esnext",
     "typeRoots": [
       "node_modules/@types"
     ],
