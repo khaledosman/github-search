@@ -19,7 +19,7 @@ export class SearchComponent {
   @Input() public placeholder: string = ''
   @Output() public onSearchChanged = new EventEmitter<string>()
   public value = ''
-  @ViewChild('searchField', {static: false}) private el: ElementRef
+  @ViewChild('searchField', { static: false }) private el: ElementRef
   constructor () { }
 
   public ngAfterViewInit (): void {
