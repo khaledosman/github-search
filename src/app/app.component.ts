@@ -36,8 +36,8 @@ export class AppComponent {
   public isLoading: boolean
 
   // private state
+  public pageLimit = 10
   private query: QueryRef<any>
-  private pageLimit = 10
 
   constructor (private githubSearchService: GithubSearchService, private cd: ChangeDetectorRef) {}
 
