@@ -45,6 +45,7 @@
               "extractCss": true,
               "namedChunks": true,
               "aot": true,
+              "es5BrowserSupport": false,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
