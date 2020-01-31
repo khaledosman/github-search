@@ -42,7 +42,7 @@
     "apollo-link": "^1.2.12",
     "apollo-link-context": "^1.0.18",
     "core-js": "^3.1.4",
-    "graphql": "^14.4.1",
+    "graphql": "^14.6.0",
     "graphql-tag": "^2.10.1",
     "rxjs": "^6.5.2",
     "tslib": "^1.10.0",
