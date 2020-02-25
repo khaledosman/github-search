@@ -67,7 +67,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "github-search:build",
+            "browserTarget": "github-search:build"
           },
           "configurations": {
             "production": {
@@ -114,5 +114,8 @@
       }
     }
   },
-  "defaultProject": "github-search"
+  "defaultProject": "github-search",
+  "cli": {
+    "analytics": "a427a838-78d0-450f-ae94-5ce91b373c05"
+  }
 }
