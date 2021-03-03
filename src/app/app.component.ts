@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, OnInit } from '@angular/core'
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router'
 
 import { QueryRef } from 'apollo-angular'
 import { GithubSearchService } from './github-search.service'
@@ -67,11 +67,11 @@ export class AppComponent implements OnInit {
     this.fetchMore({ after: AppComponent.lastItemCursor, before: null, first: this.pageLimit, last: null })
   }
   public async ngOnInit () {
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get("code");
-    console.log({code})
-    if(code) {
-      const {access_token: accessToken} = await axios.post(`https://github.com/login/oauth/access_token`, {
+    const url = new URL(window.location.href)
+    const code = url.searchParams.get('code')
+    console.log({ code })
+    if (code) {
+      const { access_token: accessToken } = await axios.post(`https://github.com/login/oauth/access_token`, {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         code,
@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
     event.stopPropagation()
     console.log('HERE')
 
-    window.location.href =`https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${this.state}`
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${this.state}`
   }
 
   public handleFetchPrevious (event) {
