@@ -1,4 +1,4 @@
-import {Apollo} from 'apollo-angular';
+import { Apollo } from 'apollo-angular'
 import { Injectable } from '@angular/core'
 
 import { GITHUB_SEARCH_QUERY } from './graphql/queries/github-search.query'

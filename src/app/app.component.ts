@@ -1,7 +1,6 @@
-import {QueryRef} from 'apollo-angular';
+import { QueryRef } from 'apollo-angular'
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-
 
 import { GithubSearchService } from './github-search.service'
 import { IUser } from './model/iuser.interface'
