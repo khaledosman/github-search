@@ -1,17 +1,21 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, OnInit } from '@angular/core'
+import { ActivatedRoute } from "@angular/router";
+
 import { QueryRef } from 'apollo-angular'
 import { GithubSearchService } from './github-search.service'
 import { IUser } from './model/iuser.interface'
+import axios from 'axios'
 
 @Component({
   selector: 'app-root',
   template: `
     <main>
       <!-- <router-outlet> </router-outlet> -->
+      <button (click)="handleButtonClicked($event)"> Login with GitHub </button>
       <app-search (onSearchChanged)="handleSearchChanged($event)" [placeholder]="'Enter a username'">
         <h5 style="text-align: center;"> Search for github users: </h5>
-        </app-search>
-        <app-users-list
+      </app-search>
+      <app-users-list
         [users]="users"
         [pageLimit]="pageLimit"
         [userCount]="userCount"
@@ -25,10 +29,14 @@ import { IUser } from './model/iuser.interface'
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.ShadowDom
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public static lastItemCursor = null
   public static firstItemCursor = null
 
+  private clientSecret = '17abf99db4db6d985927a6e81b4974459f11c3c5'
+  private clientId = '07488d84f6d016be14ed'
+  private redirectUri = 'https://khaledosman.github.io/github-search'
+  private state = 'super random' + Math.random()
   // rendered state
   public title = 'github-search'
   public userCount: number
@@ -39,7 +47,7 @@ export class AppComponent {
   public pageLimit = 10
   private query: QueryRef<any>
 
-  constructor (private githubSearchService: GithubSearchService, private cd: ChangeDetectorRef) {}
+  constructor (private githubSearchService: GithubSearchService, private cd: ChangeDetectorRef, private route: ActivatedRoute) {}
 
   public handleSearchChanged (newValue) {
     this._resetState()
@@ -57,6 +65,27 @@ export class AppComponent {
   public handleFetchNext (event) {
     event.stopPropagation()
     this.fetchMore({ after: AppComponent.lastItemCursor, before: null, first: this.pageLimit, last: null })
+  }
+  public async ngOnInit () {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("code");
+    console.log({code})
+    if(code) {
+      const {access_token: accessToken} = await axios.post(`https://github.com/login/oauth/access_token`, {
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        code,
+        redirect_uri: this.redirectUri,
+        state: this.state
+      }).then(res => res.data)
+      window.localStorage.setItem('gh_token', accessToken)
+    }
+  }
+  public handleButtonClicked (event) {
+    event.stopPropagation()
+    console.log('HERE')
+
+    window.location.href =`https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${this.state}`
   }
 
   public handleFetchPrevious (event) {

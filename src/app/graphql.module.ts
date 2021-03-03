@@ -12,7 +12,7 @@ import introspectionQueryResultData from '../../fragmentTypes.json'
 
 export function createApollo (httpLink: HttpLink) {
   const authLink = setContext((_, { headers }) => {
-    const token = environment.GH_AUTH_TOKEN
+    const token = localStorage.getItem('gh_token') || environment.GH_AUTH_TOKEN
     return {
       headers: {
         ...headers,
