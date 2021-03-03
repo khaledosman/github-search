@@ -5,6 +5,10 @@
         "tslint-config-standard"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+      "deprecation": {
+        "severity": "warning"
+      }
+    },
     "rulesDirectory": []
 }
