@@ -33,10 +33,10 @@ export class AppComponent implements OnInit {
   public static lastItemCursor = null
   public static firstItemCursor = null
 
-  private clientSecret = '17abf99db4db6d985927a6e81b4974459f11c3c5'
   private clientId = '07488d84f6d016be14ed'
   private redirectUri = 'https://khaledosman.github.io/github-search'
   private state = 'super random' + Math.random()
+
   // rendered state
   public title = 'github-search'
   public userCount: number
@@ -66,20 +66,19 @@ export class AppComponent implements OnInit {
     event.stopPropagation()
     this.fetchMore({ after: AppComponent.lastItemCursor, before: null, first: this.pageLimit, last: null })
   }
+
   public async ngOnInit () {
     const url = new URL(window.location.href)
     const code = url.searchParams.get('code')
   
     if (code) {
       const response = await axios.get(`https://my-github-search.herokuapp.com/authenticate/${code}`)
-      console.log(`setting token to ${response}`)
       window.localStorage.setItem('gh_token', response.data.token)
     }
   }
+
   public handleButtonClicked (event) {
     event.stopPropagation()
-    console.log('HERE')
-
     window.location.href = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${this.state}&scope=user:email,read:user`
   }
 
