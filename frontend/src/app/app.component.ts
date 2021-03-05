@@ -71,8 +71,8 @@ export class AppComponent implements OnInit {
     const code = url.searchParams.get('code')
   
     if (code) {
-      const { access_token: accessToken } = await axios.get(`https://my-github-search.herokuapp.com/authenticate/${code}`).then(res => res.data)
-      window.localStorage.setItem('gh_token', accessToken)
+      const { token } = await axios.get(`https://my-github-search.herokuapp.com/authenticate/${code}`).then(res => res.data)
+      window.localStorage.setItem('gh_token', token)
     }
   }
   public handleButtonClicked (event) {
