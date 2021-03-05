@@ -72,6 +72,7 @@ export class AppComponent implements OnInit {
   
     if (code) {
       const { token } = await axios.get(`https://my-github-search.herokuapp.com/authenticate/${code}`).then(res => res.data)
+      console.log(`setting token to ${token}`)
       window.localStorage.setItem('gh_token', token)
     }
   }
