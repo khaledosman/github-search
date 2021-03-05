@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
   public async ngOnInit () {
     const url = new URL(window.location.href)
     const code = url.searchParams.get('code')
-    console.log({ code })
+  
     if (code) {
       const { access_token: accessToken } = await axios.post(`https://github.com/login/oauth/access_token`, {
         client_id: this.clientId,

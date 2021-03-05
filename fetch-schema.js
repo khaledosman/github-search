@@ -3,11 +3,11 @@ const fetch = require('node-fetch')
 const fs = require('fs')
 
 const uri = 'https://api.github.com/graphql'
-const GH_AUTH_TOKEN = '5a651da64b419fdf2bf3bc4c55f062fcf5998398'
+const GH_AUTH_TOKEN = 'enter private token here'
 
 fetch(uri, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GH_AUTH_TOKEN}` },
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${GH_AUTH_TOKEN}` },
   body: JSON.stringify({
     variables: {},
     query: `
@@ -27,14 +27,19 @@ fetch(uri, {
 })
   .then(result => result.json())
   .then(result => {
-    // here we're filtering out any type information unrelated to unions or interfaces
-    const filteredData = result.data.__schema.types.filter(
-      type => type.possibleTypes !== null
-    )
-    result.data.__schema.types = filteredData
-    fs.writeFile('./fragmentTypes.json', JSON.stringify(result.data), err => {
+    console.log(result.data)
+    const possibleTypes = {}
+
+    result.data.__schema.types.forEach(supertype => {
+      if (supertype.possibleTypes) {
+        possibleTypes[supertype.name] =
+          supertype.possibleTypes.map(subtype => subtype.name)
+      }
+    })
+
+    fs.writeFile('./possibleTypes.json', JSON.stringify(possibleTypes), err => {
       if (err) {
-        console.error('Error writing fragmentTypes file', err)
+        console.error('Error writing possibleTypes.json', err)
       } else {
         console.log('Fragment types successfully extracted!')
       }

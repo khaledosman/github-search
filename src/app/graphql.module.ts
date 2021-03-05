@@ -1,6 +1,6 @@
-import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
-import { HttpLink, HttpLinkModule } from 'apollo-angular/http'
-import { InMemoryCache, IntrospectionFragmentMatcher } from '@apollo/client/core'
+import { APOLLO_OPTIONS } from 'apollo-angular'
+import { HttpLink } from 'apollo-angular/http'
+import { InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
 import { NgModule } from '@angular/core'
 
@@ -9,7 +9,7 @@ const uri = 'https://api.github.com/graphql'
 
 // See https://www.apollographql.com/docs/react/advanced/fragments.html#fragment-matcher
 
-import introspectionQueryResultData from '../../fragmentTypes.json'
+import introspectionQueryResultData from '../../possibleTypes.json'
 
 export function createApollo (httpLink: HttpLink) {
   const authLink = setContext((_, { headers }) => {
@@ -22,20 +22,20 @@ export function createApollo (httpLink: HttpLink) {
     }
   })
 
-  const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData
-  })
+  // const fragmentMatcher = new IntrospectionFragmentMatcher({
+  //   introspectionQueryResultData
+  // })
 
   return {
     link: authLink.concat(httpLink.create({ uri })),
     cache: new InMemoryCache({
-      fragmentMatcher
+      possibleTypes: introspectionQueryResultData
     })
   }
 }
 
 @NgModule({
-  exports: [ApolloModule, HttpLinkModule],
+  exports: [],
   providers: [
     {
       provide: APOLLO_OPTIONS,

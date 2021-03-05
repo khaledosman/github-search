@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from 'apollo-angular'
 // TODO: webpack graphql loader for .gql files would be nice
 export const GITHUB_SEARCH_QUERY = gql`
   query search ($query: String!, $type:SearchType!, $first: Int, $after: String, $before: String, $last: Int) {
