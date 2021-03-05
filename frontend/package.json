@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy:gh-pages": "ng build --prod --output-path ../docs --base-href /github-search/ && cp ../docs/index.html ../docs/404.html && cd ../ git add . && git commit -m 'deploy app' && git push origin master",
+    "deploy:gh-pages": "ng build --prod --output-path ../docs --base-href /github-search/ && cd ../ && cp docs/index.html docs/404.html && git add . && git commit -m 'deploy app' && git push origin master",
     "deploy:netlify": "npx ngssc wrap-aot ng build --prod",
     "invalidate-cache": "aws --profile personal configure set preview.cloudfront true && aws cloudfront create-invalidation --distribution-id <CLOUDFRONT_DISTRIBUTION_ID> --paths '/*'",
     "deploy": "ng build --prod --es5-browser-support=false && aws --profile personal s3 sync dist/github-search s3://my-github-search.io --delete",
