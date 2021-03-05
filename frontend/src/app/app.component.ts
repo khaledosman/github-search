@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     event.stopPropagation()
     console.log('HERE')
 
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${this.state}`
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&state=${this.state}&scope=user:email,read:user`
   }
 
   public handleFetchPrevious (event) {
